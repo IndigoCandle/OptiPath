@@ -74,30 +74,26 @@ public class MapVisualizer extends Application {
         Pane root = new Pane();
         Scene scene = new Scene(root, 800, 600);
 
-        // Initialize vertices and edges
+
         createVerticesAndEdges();
 
-        // Load the car image and create an ImageView for it
-        Image carImage = new Image("file:src/resources/car.png"); // Adjust the path as needed
+        Image carImage = new Image("file:src/resources/car.png");
         carView = new ImageView(carImage);
-        carView.setFitWidth(50); // Set the width of the car
-        carView.setPreserveRatio(true); // Preserve the ratio
+        carView.setFitWidth(50);
+        carView.setPreserveRatio(true);
 
-        // Set initial position of the car (adjust as necessary)
+
         carView.setX(vertices.get(0).getX() - carImage.getWidth() / 2);
         carView.setY(vertices.get(0).getY() - carImage.getHeight() / 2);
 
-        // Add the car to the root pane
         root.getChildren().add(carView);
 
-        // Draw the rest of the map (vertices and edges)
         drawMap(root);
 
         primaryStage.setTitle("Map Visualization");
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        // Start the car movement simulation
         startCarSimulation();
     }
 

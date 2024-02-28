@@ -8,9 +8,7 @@ public class graph {
 
     public graph(List<Vertex> vertecies){
         this.vertecies = new ArrayList<>();
-        for(Vertex vertex : vertecies){
-            this.vertecies.add(vertex);
-        }
+        this.vertecies.addAll(vertecies);
     }
 
 }
