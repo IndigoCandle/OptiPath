@@ -79,6 +79,25 @@ public class Car {
         this.currentY += deltaY;
     }
 
+    public double getCurrentSpeed() {
+        return currentSpeed;
+    }
+
+    public double getBestFuelConsumptionSpeed() {
+        return bestFuelConsumptionSpeed;
+    }
+
+    public void setBestFuelConsumptionSpeed(double bestFuelConsumptionSpeed) {
+        this.bestFuelConsumptionSpeed = bestFuelConsumptionSpeed;
+    }
+
+    public void setFuelConsumed(int fuelConsumed) {
+        this.fuelConsumed = fuelConsumed;
+    }
+
+    public double getFuelConsumed() {
+        return fuelConsumed;
+    }
     // Getters and setters...
 }
 

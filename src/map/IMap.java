@@ -62,4 +62,6 @@ public interface IMap {
      * @return A list of vertices that are neighbors of the specified vertex.
      */
     List<Vertex> getNeighbors(Vertex vertex);
+
+    Edge getEdgeBetween(Vertex start, Vertex end);
 }
