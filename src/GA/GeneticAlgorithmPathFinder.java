@@ -2,6 +2,7 @@ package GA;
 
 import GA.Interfaces.IShortestPathFinder;
 import cars.Car;
+import com.sun.xml.internal.ws.policy.spi.PolicyAssertionValidator;
 import map.IMap;
 import map.Vertex;
 
@@ -41,13 +42,22 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
     }
 
     private List<Vertex> evolveToFindShortestPath(Vertex start, Vertex end, IMap map) {
+        int numberOfGenerations = 100;
+        var children = paths;
+        for (int i = 0; i < numberOfGenerations; i++) {
+            var tournamentWinners = Selection.tournamentSelection(children, car, map, 3, 2);
+            var elites = Selection.elitism(children, car, map, 2);
+            int length = Math.min(tournamentWinners.size(), elites.size());
+            children = (ArrayList<List<Vertex>>) Crossover.crossover(tournamentWinners.get(0),tournamentWinners.get(1));
+            for(var vertex : children){
+                Mutation.mutate(vertex, 0.1, map);
+            }
+            children.addAll(elites);
+            // Return the most efficient path found by the GA
+        }
+        var winner = Selection.elitism(children, car, map, 1);
         // Placeholder for GA evolution logic
-        var tournamentWinners = Selection.tournamentSelection(paths, car, map, 3);
-        var elites = Selection.elitism(paths, car, map, 2);
-        int length = Math.min(tournamentWinners.size(), elites.size());
 
-
-        // Return the most efficient path found by the GA
         return null; // This should be replaced with the actual list of vertices forming the shortest path
     }
 }

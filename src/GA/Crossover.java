@@ -24,6 +24,7 @@ public class Crossover {
             for (Vertex commonVertex : commonVertices) {
                 children.add(createChild(parent1, parent2, commonVertex));
                 children.add(createChild(parent2, parent1, commonVertex));
+                break;
             }
         }
         return children;
