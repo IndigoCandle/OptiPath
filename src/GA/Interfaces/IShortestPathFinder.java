@@ -1,6 +1,6 @@
 package GA.Interfaces;
 
-import map.IMap;
+import map.interfaces.IMap;
 import map.Vertex;
 import java.util.List;
 

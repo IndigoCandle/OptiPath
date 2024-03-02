@@ -2,8 +2,9 @@ package GA;
 
 import GA.Interfaces.IShortestPathFinder;
 import cars.Car;
-import com.sun.xml.internal.ws.policy.spi.PolicyAssertionValidator;
-import map.IMap;
+import map.AccidentEvent;
+import map.interfaces.IEvents;
+import map.interfaces.IMap;
 import map.Vertex;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
     }
 
     private List<Vertex> evolveToFindShortestPath(Vertex start, Vertex end, IMap map) {
+        IEvents accident = new AccidentEvent();
         int numberOfGenerations = 100;
         List<List<Vertex>> children = paths;
         for (int i = 0; i < numberOfGenerations; i++) {
@@ -53,7 +55,9 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
                 Mutation.mutate(vertex, 0.1, map);
             }
             children.addAll(elites);
-            // Return the most efficient path found by the GA
+            if(i % 10 == 0){
+                accident.GenerateEvent(map);
+            }
         }
         List<List<Vertex>> winner = Selection.elitism(children, car, map, 1);
         // Placeholder for GA evolution logic

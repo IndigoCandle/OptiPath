@@ -5,21 +5,23 @@ public class Edge {
     private Vertex destination;
     private double distance; // Represents the physical length of the road
     private double speedLimit; // Maximum allowed speed on this road
-    private int roadDegree; // Could potentially be used for elevation changes if interpreted as such
+    //private int roadDegree; // Could potentially be used for elevation changes if interpreted as such
     private boolean hasTrafficLights; // Indicates if there are traffic lights on this road
     private double elevationChange; // Represents the elevation change between source and destination
     private int stopsCount; // Represents the number of stops along the edge, including traffic lights
 
     // Constructor
-    public Edge(Vertex source, Vertex destination, double distance, double speedLimit, int roadDegree, boolean hasTrafficLights, double elevationChange, int stopsCount) {
+    public Edge(Vertex source, Vertex destination, double distance, double speedLimit, boolean hasTrafficLights, double elevationChange, int stopsCount) {
         this.source = source;
         this.destination = destination;
         this.distance = distance;
         this.speedLimit = speedLimit;
-        this.roadDegree = roadDegree;
+        //this.roadDegree = roadDegree;
         this.hasTrafficLights = hasTrafficLights;
         this.elevationChange = elevationChange;
         this.stopsCount = stopsCount;
+        if(hasTrafficLights)
+            this.stopsCount += (int) (distance / 300);
     }
 
     // Getters and Setters
@@ -55,13 +57,9 @@ public class Edge {
         this.speedLimit = speedLimit;
     }
 
-    public int getRoadDegree() {
-        return roadDegree;
-    }
 
-    public void setRoadDegree(int roadDegree) {
-        this.roadDegree = roadDegree;
-    }
+
+
 
     public boolean hasTrafficLights() {
         return hasTrafficLights;
@@ -80,7 +78,7 @@ public class Edge {
     }
 
     public int getStopsCount() {
-        return stopsCount + (hasTrafficLights ? 1 : 0); // Including traffic lights if present
+        return stopsCount;
     }
 
     public void setStopsCount(int stopsCount) {

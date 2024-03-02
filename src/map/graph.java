@@ -1,14 +1,22 @@
 package map;
 
+import map.interfaces.IMap;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class graph implements IMap{
+public class graph implements IMap {
     private List<Vertex> vertecies;
+    private List<Edge> edges;
 
-    public graph(List<Vertex> vertecies){
+    public graph(List<Vertex> vertices){
         this.vertecies = new ArrayList<>();
-        this.vertecies.addAll(vertecies);
+        this.vertecies.addAll(vertices);
+        edges = new ArrayList<>();
+        for(Vertex v : vertices){
+            if(v.getEdges() != null)
+                this.edges.addAll(v.getEdges());
+        }
     }
 
     @Override
@@ -52,8 +60,13 @@ public class graph implements IMap{
     }
 
     @Override
+    public void removeEdgeBetween(Edge edge) {
+        edges.remove(edge);
+    }
+
+    @Override
     public List<Edge> getEdges() {
-        return null;
+        return edges;
     }
 
     @Override

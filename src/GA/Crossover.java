@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public class Crossover {
-
+final static double CROSSOVER_RATE = 0.7;
     public static List<List<Vertex>> crossover(List<Vertex> parent1, List<Vertex> parent2) {
         // Find common vertices excluding the start and end points
         Set<Vertex> commonVertices = new HashSet<>(parent1);

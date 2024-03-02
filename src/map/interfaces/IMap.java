@@ -1,4 +1,7 @@
-package map;
+package map.interfaces;
+
+import map.Edge;
+import map.Vertex;
 
 import java.util.List;
 
@@ -49,6 +52,7 @@ public interface IMap {
      * @return A list of all vertices.
      */
     List<Vertex> getVertices();
+    void removeEdgeBetween(Edge edge);
 
     /**
      * Gets all edges in the map.
