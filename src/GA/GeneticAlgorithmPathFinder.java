@@ -43,21 +43,22 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
 
     private List<Vertex> evolveToFindShortestPath(Vertex start, Vertex end, IMap map) {
         int numberOfGenerations = 100;
-        var children = paths;
+        List<List<Vertex>> children = paths;
         for (int i = 0; i < numberOfGenerations; i++) {
-            var tournamentWinners = Selection.tournamentSelection(children, car, map, 3, 2);
-            var elites = Selection.elitism(children, car, map, 2);
+            List<List<Vertex>> tournamentWinners = Selection.tournamentSelection(children, car, map, 3, 2);
+            List<List<Vertex>> elites = Selection.elitism(children, car, map, 1);
             int length = Math.min(tournamentWinners.size(), elites.size());
             children = (ArrayList<List<Vertex>>) Crossover.crossover(tournamentWinners.get(0),tournamentWinners.get(1));
-            for(var vertex : children){
+            for(List<Vertex> vertex : children){
                 Mutation.mutate(vertex, 0.1, map);
             }
             children.addAll(elites);
             // Return the most efficient path found by the GA
         }
-        var winner = Selection.elitism(children, car, map, 1);
+        List<List<Vertex>> winner = Selection.elitism(children, car, map, 1);
         // Placeholder for GA evolution logic
 
-        return null; // This should be replaced with the actual list of vertices forming the shortest path
+        return winner.get(0); // This should be replaced with the actual list of vertices forming the shortest path
     }
+
 }

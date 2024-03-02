@@ -1,13 +1,11 @@
 package GA;
 
 import cars.Car;
+import javafx.util.Pair;
 import map.IMap;
 import map.Vertex;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Selection {
@@ -44,16 +42,18 @@ public class Selection {
 
     // Method to implement elitism
     public static List<List<Vertex>> elitism(List<List<Vertex>> population, Car car, IMap map, int numberOfElites) {
-        // Create a map of routes to their fitness values
-        Map<List<Vertex>, Double> fitnessMap = population.stream()
-                .collect(Collectors.toMap(route -> route, route -> PathFitnessCalculator.calculateTotalFuelConsumption(car, route, map)));
-
-        // Sort the population based on the fitness values (lower fuel consumption is better)
-        List<List<Vertex>> sortedPopulation = population.stream()
-                .sorted((route1, route2) -> fitnessMap.get(route1).compareTo(fitnessMap.get(route2)))
+        // Create a list of route-fitness pairs
+        List<Pair<List<Vertex>, Double>> routeFitnessPairs = population.stream()
+                .map(route -> new Pair<>(route, PathFitnessCalculator.calculateTotalFuelConsumption(car, route, map)))
                 .collect(Collectors.toList());
 
-        // Return the top N fittest routes
-        return new ArrayList<>(sortedPopulation.subList(0, Math.min(numberOfElites, sortedPopulation.size())));
+        // Sort the pairs by fitness value
+        routeFitnessPairs.sort(Comparator.comparing(Pair::getValue));
+
+        // Extract the top N routes based on their fitness
+        return routeFitnessPairs.stream()
+                .limit(numberOfElites)
+                .map(Pair::getKey)
+                .collect(Collectors.toList());
     }
 }

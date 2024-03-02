@@ -1,0 +1,32 @@
+.background {
+    -fx-background-image: url("C:/Users/romya/IdeaProjects/final/src/resources/background1.png");
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+}
+
+
+.vertex {
+    -fx-fill: #FFC857;
+    -fx-stroke: #000000;
+    -fx-stroke-width: 2;
+}
+
+.edge {
+    -fx-stroke: #000000;
+    -fx-stroke-dash-array: 10 5;
+    -fx-stroke-width: 2;
+}
+
+.solve-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.path {
+    -fx-stroke: #F76C6C;
+    -fx-stroke-width: 3;
+}

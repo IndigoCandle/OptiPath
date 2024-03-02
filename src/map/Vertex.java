@@ -21,6 +21,7 @@ public class Vertex {
         return id;
     }
 
+
     public void setId(int id) {
         this.id = id;
     }
@@ -41,5 +42,12 @@ public class Vertex {
         if (!this.edges.contains(edge)) {
             this.edges.add(edge);
         }
+    }
+    public List<Vertex> getNeighbors(){
+        List<Vertex> neighbors = new ArrayList<>();
+        for(Edge e : edges){
+            neighbors.add(e.getDestination());
+        }
+        return neighbors;
     }
 }

@@ -1,3 +1,4 @@
+/*
 package animation;
 
 import javafx.animation.KeyFrame;
@@ -41,8 +42,6 @@ public class CarSimulation extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
 }
+
+*/
