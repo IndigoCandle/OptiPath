@@ -1,32 +1,44 @@
-.background {
-    -fx-background-image: url("C:/Users/romya/IdeaProjects/final/src/resources/background1.png");
-    -fx-background-size: cover;
-    -fx-background-position: center center;
+.root {
+
+        -fx-background-image:url("resources/background1.png");
+
 }
 
-
-.vertex {
-    -fx-fill: #FFC857;
-    -fx-stroke: #000000;
-    -fx-stroke-width: 2;
+.button {
+    -fx-background-color: #4CAF50; /* A fresh, modern green for buttons */
+    -fx-text-fill: #FFFFFF; /* White text for contrast */
+    -fx-font-family: 'Arial', sans-serif; /* Modern, readable font */
+    -fx-font-size: 14px; /* Appropriate font size */
+    -fx-padding: 10px 20px; /* Padding for a larger click area */
+    -fx-border-radius: 5px; /* Rounded corners for a softer look */
+    -fx-background-radius: 5px; /* Align the background radius with border radius */
 }
 
-.edge {
-    -fx-stroke: #000000;
-    -fx-stroke-dash-array: 10 5;
-    -fx-stroke-width: 2;
+.button:hover {
+    -fx-background-color: #45a049; /* Slightly darker shade on hover */
 }
 
-.solve-button {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-padding: 10px;
-    -fx-border-radius: 5px;
-    -fx-background-radius: 5px;
+.dialog-pane {
+    -fx-background-color: #f2f2f2; /* Light grey background for dialogs */
+    -fx-border-color: #cccccc; /* Slight border for definition */
+    -fx-border-width: 1px;
 }
 
-.path {
-    -fx-stroke: #F76C6C;
-    -fx-stroke-width: 3;
+.label {
+    -fx-text-fill: #333333; /* Dark text for readability */
+    -fx-font-family: 'Arial', sans-serif;
+}
+
+.text-field {
+    -fx-font-family: 'Arial', sans-serif;
+}
+
+.line {
+    -fx-stroke-width: 2px; /* Make lines slightly thicker for visibility */
+}
+
+.circle {
+    -fx-fill: #2196F3; /* Blue fill for circles/vertices */
+    -fx-stroke: #1976D2; /* Slightly darker border for definition */
+    -fx-stroke-width: 1px;
 }
