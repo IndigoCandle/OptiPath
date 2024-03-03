@@ -56,7 +56,7 @@ public class graph implements IMap {
 
     @Override
     public List<Vertex> getVertices() {
-        return null;
+        return vertecies;
     }
 
     @Override
@@ -83,4 +83,5 @@ public class graph implements IMap {
         }
         return null;
     }
+
 }

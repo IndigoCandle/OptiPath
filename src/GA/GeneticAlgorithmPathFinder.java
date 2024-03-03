@@ -20,9 +20,9 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
     }
 
     @Override
-    public List<Vertex> findShortestPath(Vertex start, Vertex end, IMap map) {
-        // Implementation of the GA to find the shortest path
-        for(int i = 0; i< 10; i++)  {
+    public List<Vertex> findShortestPath(Vertex start, Vertex end, IMap map) throws NoRoutesFoundException {
+        int populationSize = Math.min(10, map.getVertices().size() / 2);
+        for(int i = 0; i< populationSize; i++)  {
             Population population = new Population();
             List<Vertex> path = population.generateRandomPath(start, end, map);
             paths.add(path);
@@ -31,26 +31,29 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
         for (int i = 0; i < paths.size(); i++) {
             fitness.add(PathFitnessCalculator.calculateTotalFuelConsumption(car, paths.get(i), map));
         }
-// Now minIndex points to the path with the least fuel consumption
-        //List<Vertex> mostEfficientPath = paths.get(minIndex);
-        // This would involve initializing a population of possible paths,
-
-        // evaluating them based on a fitness function (e.g., distance, fuel consumption),
-        // and using genetic operators to evolve the population towards an optimal solution.
-
-        // Placeholder for the actual GA logic
         return evolveToFindShortestPath(start, end, map);
     }
 
-    private List<Vertex> evolveToFindShortestPath(Vertex start, Vertex end, IMap map) {
+    private List<Vertex> evolveToFindShortestPath(Vertex start, Vertex end, IMap map) throws NoRoutesFoundException {
         IEvents accident = new AccidentEvent();
         int numberOfGenerations = 100;
         List<List<Vertex>> children = paths;
+
         for (int i = 0; i < numberOfGenerations; i++) {
-            List<List<Vertex>> tournamentWinners = Selection.tournamentSelection(children, car, map, 3, 2);
+            int numOfEdges = map.getEdges().size();
+            if(numOfEdges == 0){
+                throw new NoRoutesFoundException("No routes found between " + start.getId() + " and " + end.getId() + " vertices");
+            }
+            int tournamentSize = Math.min(3, numOfEdges);
+            int numOfParents = Math.min(2, map.getVertices().size() / 2);
+            if(numOfParents < 2){
+                return children.get(0);
+            }
+            List<List<Vertex>> tournamentWinners = Selection.tournamentSelection(children, car, map, tournamentSize, numOfParents);
             List<List<Vertex>> elites = Selection.elitism(children, car, map, 1);
-            int length = Math.min(tournamentWinners.size(), elites.size());
-            children = (ArrayList<List<Vertex>>) Crossover.crossover(tournamentWinners.get(0),tournamentWinners.get(1));
+            //System.out.println("No routes found between " + start.getId() + " and " + end.getId() + " vertices");
+
+            children = Crossover.crossover(tournamentWinners.get(0),tournamentWinners.get(1));
             for(List<Vertex> vertex : children){
                 Mutation.mutate(vertex, 0.1, map);
             }
