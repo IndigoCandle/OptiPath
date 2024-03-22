@@ -3,12 +3,11 @@ package map;
 public class Edge {
     private Vertex source;
     private Vertex destination;
-    private double distance; // Represents the physical length of the road
-    private double speedLimit; // Maximum allowed speed on this road
-    //private int roadDegree; // Could potentially be used for elevation changes if interpreted as such
-    private boolean hasTrafficLights; // Indicates if there are traffic lights on this road
-    private double elevationChange; // Represents the elevation change between source and destination
-    private int stopsCount; // Represents the number of stops along the edge, including traffic lights
+    private double distance;
+    private double speedLimit;
+    private boolean hasTrafficLights;
+    private double elevationChange;
+    private int stopsCount;
 
     // Constructor
     public Edge(Vertex source, Vertex destination, double distance, double speedLimit, boolean hasTrafficLights, double elevationChange, int stopsCount) {
@@ -24,7 +23,7 @@ public class Edge {
             this.stopsCount += (int) (distance / 300);
     }
 
-    // Getters and Setters
+
     public Vertex getSource() {
         return source;
     }

@@ -1,40 +1,48 @@
 package GA;
 
-import map.interfaces.IMap;
 import map.Vertex;
+import map.interfaces.IMap;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class Population {
-    private final Random random = new Random();
 
-    public List<Vertex> generateRandomPath(Vertex start, Vertex end, IMap map) {
+    private Random random = new Random();
+
+    public List<Vertex> generateRandomPathBacktrack(Vertex start, Vertex end, IMap map) {
         List<Vertex> path = new ArrayList<>();
         Set<Vertex> visited = new HashSet<>();
-        Vertex current = start;
+        if (findPathRecursive(start, end, map, path, visited)) {
+            return path;
+        }
+        return new ArrayList<>(); // Return an empty path if no path is found
+    }
+
+    private boolean findPathRecursive(Vertex current, Vertex end, IMap map, List<Vertex> path, Set<Vertex> visited) {
         path.add(current);
         visited.add(current);
 
-        while (!current.equals(end)) {
-            List<Vertex> neighbors = map.getNeighbors(current);
-            if(neighbors.isEmpty()) {
-                // Handle case where no neighbors are available
-                return null; // Or consider an alternative approach
-            }
-            neighbors.removeIf(visited::contains); // Efficient loop prevention
-            if (neighbors.isEmpty()) {
-                // No unvisited neighbors left, handle accordingly
-                return null; // Or backtrack, depending on your design
-            }
-            Vertex next = neighbors.get(random.nextInt(neighbors.size()));
-            path.add(next);
-            visited.add(next);
-            current = next;
+        if (current.equals(end)) {
+            return true; // Found the path
         }
-        return path;
+
+        List<Vertex> neighbors = map.getNeighbors(current);
+        // Shuffle the neighbors to ensure random path generation
+        Collections.shuffle(neighbors, random);
+
+        for (Vertex next : neighbors) {
+            if (!visited.contains(next)) {
+                // Recursively attempt to find a path from next to end
+                boolean found = findPathRecursive(next, end, map, path, visited);
+                if (found) {
+                    return true; // Path found
+                }
+            }
+        }
+
+        // Backtrack: remove the current vertex from path and mark it as unvisited
+        path.remove(path.size() - 1);
+        visited.remove(current);
+        return false; // No path found from current
     }
 }

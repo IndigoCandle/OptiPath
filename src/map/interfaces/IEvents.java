@@ -1,6 +1,10 @@
 package map.interfaces;
 
+import map.Edge;
+
+import java.util.List;
+
 public interface IEvents {
 
-    public void GenerateEvent(IMap map);
+    public List<Edge> GenerateEvent(IMap map);
 }

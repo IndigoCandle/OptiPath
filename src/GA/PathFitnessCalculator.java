@@ -21,7 +21,7 @@ public class PathFitnessCalculator {
         double totalFuelConsumption = 0.0;
 
         if (path == null || path.size() < 2) {
-            return Double.MAX_VALUE; // Return a large value to indicate an invalid or infeasible path.
+            return Double.MAX_VALUE;
         }
 
         for (int i = 0; i < path.size() - 1; i++) {
@@ -30,23 +30,22 @@ public class PathFitnessCalculator {
 
             Edge edge = map.getEdgeBetween(start, end);
             if (edge == null) {
-                return Double.MAX_VALUE; // Skip if no edge exists between the vertices, or consider adding a penalty.
+                return Double.MAX_VALUE;
             }
 
-            // Simulate driving for the segment defined by the edge.
             double distance = edge.getDistance();
-            boolean isInTraffic = edge.hasTrafficLights(); // Assuming traffic lights indicate traffic.
+            boolean isInTraffic = edge.hasTrafficLights();
             double elevationChange = edge.getElevationChange();
             int stops = edge.getStopsCount();
 
-            // Assuming the car's speed adapts to the speed limit of the edge or its best fuel consumption speed, whichever is lower.
+
             double speed = Math.min(car.getBestFuelConsumptionSpeed(), edge.getSpeedLimit());
 
-            // Use the car's method to calculate fuel consumption for the segment.
+
             car.updateStatus(distance, speed, isInTraffic, elevationChange, stops);
             totalFuelConsumption += car.getFuelConsumed();
 
-            // Reset the fuel consumed after each segment to simulate the next segment independently.
+
             car.setFuelConsumed(0);
         }
 

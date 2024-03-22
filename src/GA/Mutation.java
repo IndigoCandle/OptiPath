@@ -18,18 +18,21 @@ public class Mutation {
                 int randomIndex = random.nextInt(path.size() - 2) + 1; // Exclude start and end vertices
                 Collections.swap(path, i, randomIndex);
                 madeChanges++;
-                // Check validity immediately after each mutation
                 if (!ValidatePath(path, map)) {
-                    Collections.swap(path, i, randomIndex); // Revert the swap if it results in an invalid path
-                    madeChanges--; // No valid changes were made
+                    Collections.swap(path, i, randomIndex);
+                    madeChanges--;
                 }
             }
         }
         if (madeChanges > 0) {
             originalPath.clear();
-            originalPath.addAll(path); // Apply the successful mutation to the original path
+            originalPath.addAll(path);
         }
     }
+    //function for slowing down the car
+
+
+
 
     public static boolean ValidatePath(List<Vertex> path, IMap map){
         for(int i = 0; i < path.size() - 1; i++){
