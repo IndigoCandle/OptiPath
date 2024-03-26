@@ -11,11 +11,11 @@ import java.util.Random;
 public class Mutation {
     static Random random = new Random();
     public static void mutate(List<Vertex> originalPath, double mutationRate, IMap map) {
-        List<Vertex> path = new ArrayList<>(originalPath); // Make a copy for mutation
+        List<Vertex> path = new ArrayList<>(originalPath);
         int madeChanges = 0;
         for (int i = 1; i < path.size() - 1; i++) {
             if (random.nextDouble() < mutationRate) {
-                int randomIndex = random.nextInt(path.size() - 2) + 1; // Exclude start and end vertices
+                int randomIndex = random.nextInt(path.size() - 2) + 1;
                 Collections.swap(path, i, randomIndex);
                 madeChanges++;
                 if (!ValidatePath(path, map)) {
@@ -29,7 +29,7 @@ public class Mutation {
             originalPath.addAll(path);
         }
     }
-    //function for slowing down the car
+
 
 
 

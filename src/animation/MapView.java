@@ -85,6 +85,26 @@ public class MapView {
         CarAnimation(path);
     }
 
+    public void showPathChoiceDialog(Consumer<Boolean> onChoiceMade) {
+        // Create a custom dialog pane
+        Dialog<Boolean> dialog = new Dialog<>();
+        dialog.setTitle("Path Choice");
+        dialog.setHeaderText("Choose the type of path:");
+        ButtonType efficientButtonType = new ButtonType("Most Efficient");
+        ButtonType fastestButtonType = new ButtonType("Fastest");
+        dialog.getDialogPane().getButtonTypes().addAll(efficientButtonType, fastestButtonType);
+
+        // Set content with custom graphics or information if needed
+        // e.g., dialog.getDialogPane().setContent(...);
+
+        // Convert the result to a boolean when one of the buttons is clicked
+        dialog.setResultConverter(buttonType -> buttonType == efficientButtonType);
+
+        // Show the dialog and wait for the result
+        Optional<Boolean> result = dialog.showAndWait();
+        result.ifPresent(onChoiceMade);
+    }
+
     void drawCrossOnAccidentEdge(Edge edge) {
         //System.out.println("Accident on edge: " + edge);
         double x = (edge.getSource().getX() + edge.getDestination().getX()) / 2;

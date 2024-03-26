@@ -1,5 +1,6 @@
 package GA;
 
+import GA.Interfaces.IFitnessCalculator;
 import cars.Car;
 import map.Edge;
 import map.interfaces.IMap;
@@ -7,7 +8,7 @@ import map.Vertex;
 
 import java.util.List;
 
-public class PathFitnessCalculator {
+public class FitnessEfficiencyCalculator implements IFitnessCalculator {
 
     /**
      * Calculates the total fuel consumption for a given path and car.
@@ -17,7 +18,7 @@ public class PathFitnessCalculator {
      * @param map The map providing details about the edges between vertices.
      * @return The total fuel consumption for traversing the path with the given car.
      */
-    public static double calculateTotalFuelConsumption(Car car, List<Vertex> path, IMap map) {
+    public double calculateFitness(Car car, List<Vertex> path, IMap map) {
         double totalFuelConsumption = 0.0;
 
         if (path == null || path.size() < 2) {

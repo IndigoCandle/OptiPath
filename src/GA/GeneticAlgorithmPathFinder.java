@@ -1,5 +1,6 @@
 package GA;
 
+import GA.Interfaces.IFitnessCalculator;
 import GA.Interfaces.IShortestPathFinder;
 import cars.Car;
 import map.AccidentEvent;
@@ -15,9 +16,11 @@ import java.util.List;
 public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
     private List<List<Vertex>> paths = new ArrayList<>();
     private Car car;
+    private IFitnessCalculator fitnessCalculator;
     private List<Edge> accidents;
-    public GeneticAlgorithmPathFinder(Car car) {
+    public GeneticAlgorithmPathFinder(Car car, IFitnessCalculator fitnessCalculator) {
         this.car = car;
+        this.fitnessCalculator = fitnessCalculator;
         accidents = new ArrayList<>();
     }
 
@@ -32,10 +35,7 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
             List<Vertex> path = population.generateRandomPathBacktrack(start, end, map);
             paths.add(path);
         }
-        List<Double> fitness = new ArrayList<>();
-        for (List<Vertex> path : paths) {
-            fitness.add(PathFitnessCalculator.calculateTotalFuelConsumption(car, path, map));
-        }
+
         return evolveToFindShortestPath(start, end, map);
     }
 
@@ -55,8 +55,8 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
             if(numOfParents < 2){
                 return children.get(0);
             }
-            List<List<Vertex>> tournamentWinners = Selection.tournamentSelection(children, car, map, tournamentSize, numOfParents);
-            List<List<Vertex>> elites = Selection.elitism(children, car, map, numOfParents);
+            List<List<Vertex>> tournamentWinners = Selection.tournamentSelection(children, car, map, tournamentSize, numOfParents, fitnessCalculator);
+            List<List<Vertex>> elites = Selection.elitism(children, car, map, numOfParents, fitnessCalculator);
             if(!prevElite.isEmpty()){
                 if(elites.get(0).equals(prevElite)){
                     EliteCount++;
@@ -78,7 +78,7 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
                 accidents.addAll(accident.GenerateEvent(map));
             }
         }
-        List<List<Vertex>> winner = Selection.elitism(children, car, map, 1);
+        List<List<Vertex>> winner = Selection.elitism(children, car, map, 1, fitnessCalculator);
 
         return winner.get(0);
     }

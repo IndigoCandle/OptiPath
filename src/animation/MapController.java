@@ -1,5 +1,8 @@
 package animation;
 
+import GA.FitnessEfficiencyCalculator;
+import GA.FitnessTimeCalculator;
+import GA.Interfaces.IFitnessCalculator;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -28,6 +31,7 @@ public class MapController {
     private Vertex startVertex = null;
     private Vertex endVertex = null;
     private final Stage primaryStage;
+    private boolean efficientPath = false;
 
     public MapController(Stage primaryStage, MapView mapView) {
         this.primaryStage = primaryStage;
@@ -56,6 +60,12 @@ public class MapController {
         }
     }
 
+    private void promptUserForPathType() {
+        mapView.showPathChoiceDialog(isEfficient -> {
+            efficientPath = isEfficient;
+        });
+    }
+
     private void loadPremadeGraph() {
         // Get the premade graph
         CityGraphFactory cityGraphFactory = new CityGraphFactory();
@@ -79,6 +89,8 @@ public class MapController {
 
 
     private void attachEventHandlers() {
+
+
         // Attach event handlers for solve and reset buttons
         mapView.getSolveButton().setOnAction(e -> {
             runGeneticAlgorithm();
@@ -153,15 +165,22 @@ public class MapController {
 
 
 
-    private void runGeneticAlgorithm() {
+    private void runGeneticAlgorithm(){
         if (startVertex == null || endVertex == null) {
             System.out.println("Select start and end vertices.");
             return;
         }
+        promptUserForPathType();
+        IFitnessCalculator fitnessCalculator;
+        if(efficientPath){
+             fitnessCalculator = new FitnessEfficiencyCalculator();
 
+        } else{
+             fitnessCalculator = new FitnessTimeCalculator();
+        }
         graph map = new graph(vertices);
         Car car = new Car("Car1", 60, 20);
-        GeneticAlgorithmPathFinder ga = new GeneticAlgorithmPathFinder(car);
+        GeneticAlgorithmPathFinder ga = new GeneticAlgorithmPathFinder(car, fitnessCalculator);
 
         try {
             List<Vertex> efficientPath = ga.findShortestPath(startVertex, endVertex, map);

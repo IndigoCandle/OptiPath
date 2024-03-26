@@ -1,3 +1,4 @@
+/*
 
 package animation;
 import GA.NoRoutesFoundException;
@@ -374,3 +375,4 @@ public class MapVisualizer extends Application {
 
 }
 
+*/

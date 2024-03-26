@@ -5,8 +5,8 @@ import map.Edge;
 public class Car {
     private String id;
     private double currentSpeed;
-    private double bestFuelConsumptionSpeed; // Optimal speed for best fuel efficiency
-    private double fuelEfficiency; // Fuel efficiency at the best consumption speed
+    private double bestFuelConsumptionSpeed;
+    private double fuelEfficiency;
     private double fuelConsumed;
     private boolean isInTraffic;
     private double elevationChange;
@@ -39,16 +39,16 @@ public class Car {
         double basicFuelConsumption = distance / fuelEfficiency;
         double speedFactor = calculateSpeedFactor(currentSpeed);
 
-        // Adjusting basic consumption based on current speed
+
         basicFuelConsumption *= speedFactor;
 
-        // Adjust for other factors like traffic, elevation, and stops
+
         if (elevationChange > 0) {
-            // Increase fuel consumption more significantly when going uphill
-            basicFuelConsumption *= (1 + 0.2 * elevationChange); // 20% more fuel used per unit of elevation gain
+
+            basicFuelConsumption *= (1 + 0.2 * elevationChange);
         } else if (elevationChange < 0) {
-            // Decrease fuel consumption when going downhill, but to a lesser extent
-            basicFuelConsumption *= (1 - 0.05 * Math.abs(elevationChange)); // 5% less fuel used per unit of elevation loss
+
+            basicFuelConsumption *= (1 - 0.05 * Math.abs(elevationChange));
         }
         basicFuelConsumption += stops * 0.005;
 
@@ -56,28 +56,11 @@ public class Car {
     }
 
     private double calculateSpeedFactor(double currentSpeed) {
-        // Assuming fuel efficiency decreases as the deviation from the optimal speed increases
-        // This is a simple linear relationship for demonstration
+
         double deviation = Math.abs(currentSpeed - bestFuelConsumptionSpeed);
-        return 1.0 + deviation * 0.01; // 1% decrease in efficiency for every unit of speed away from optimal
-    }
-    public void setPosition(double x, double y) {
-        this.currentX = x;
-        this.currentY = y;
-    }
-    public double getCurrentX() {
-        return currentX;
+        return 1.0 + deviation * 0.01;
     }
 
-    public double getCurrentY() {
-        return currentY;
-    }
-
-    // Method to update the car's position based on the simulation step
-    public void updatePosition(double deltaX, double deltaY) {
-        this.currentX += deltaX;
-        this.currentY += deltaY;
-    }
 
     public double getCurrentSpeed() {
         return currentSpeed;
@@ -98,7 +81,7 @@ public class Car {
     public double getFuelConsumed() {
         return fuelConsumed;
     }
-    // Getters and setters...
+
 }
 
 

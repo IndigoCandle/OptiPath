@@ -1,5 +1,6 @@
 package GA;
 
+import GA.Interfaces.IFitnessCalculator;
 import cars.Car;
 import javafx.util.Pair;
 import map.interfaces.IMap;
@@ -11,9 +12,9 @@ import java.util.stream.Collectors;
 public class Selection {
 
 // Roulette wheel selection to select parents for crossover
-    public static List<List<Vertex>> rouletteWheelSelection(List<List<Vertex>> population, Car car, IMap map, int numParents) {
+    public static List<List<Vertex>> rouletteWheelSelection(List<List<Vertex>> population, Car car, IMap map, int numParents, IFitnessCalculator fitnessCalculator) {
         List<Pair<List<Vertex>, Double>> routeFitnessPairs = population.stream()
-                .map(route -> new Pair<>(route, PathFitnessCalculator.calculateTotalFuelConsumption(car, route, map)))
+                .map(route -> new Pair<>(route, fitnessCalculator.calculateFitness(car, route, map)))
                 .collect(Collectors.toList());
 
         double totalFitness = routeFitnessPairs.stream()
@@ -36,7 +37,8 @@ public class Selection {
         return selectedParents;
     }
     // Tournament selection to select parents for crossover
-    public static List<List<Vertex>> tournamentSelection(List<List<Vertex>> population, Car car, IMap map, int tournamentSize, int numParents) {
+    public static List<List<Vertex>> tournamentSelection(List<List<Vertex>> population, Car car, IMap map,
+                                                         int tournamentSize, int numParents, IFitnessCalculator fitnessCalculator) {
         Random random = new Random();
         List<List<Vertex>> selectedParents = new ArrayList<>();
         while (selectedParents.size() < numParents) {
@@ -47,9 +49,9 @@ public class Selection {
             }
 
             List<Vertex> bestPath = tournamentParticipants.get(0);
-            double bestFitness = PathFitnessCalculator.calculateTotalFuelConsumption(car, bestPath, map);
+            double bestFitness = fitnessCalculator.calculateFitness(car, bestPath, map);
             for (List<Vertex> path : tournamentParticipants) {
-                double currentFitness = PathFitnessCalculator.calculateTotalFuelConsumption(car, path, map);
+                double currentFitness = fitnessCalculator.calculateFitness(car, path, map);
                 if (currentFitness < bestFitness) {
                     bestPath = path;
                     bestFitness = currentFitness;
@@ -63,9 +65,9 @@ public class Selection {
     }
 
 
-    public static List<List<Vertex>> elitism(List<List<Vertex>> population, Car car, IMap map, int numberOfElites) {
+    public static List<List<Vertex>> elitism(List<List<Vertex>> population, Car car, IMap map, int numberOfElites, IFitnessCalculator fitnessCalculator) {
         List<Pair<List<Vertex>, Double>> routeFitnessPairs = population.stream()
-                .map(route -> new Pair<>(route, PathFitnessCalculator.calculateTotalFuelConsumption(car, route, map)))
+                .map(route -> new Pair<>(route, fitnessCalculator.calculateFitness(car, route, map)))
                 .collect(Collectors.toList());
 
         routeFitnessPairs.sort(Comparator.comparing(Pair::getValue));
