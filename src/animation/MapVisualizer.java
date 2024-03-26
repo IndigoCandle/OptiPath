@@ -1,3 +1,4 @@
+
 package animation;
 import GA.NoRoutesFoundException;
 import javafx.animation.Interpolator;
@@ -372,3 +373,4 @@ public class MapVisualizer extends Application {
 
 
 }
+
