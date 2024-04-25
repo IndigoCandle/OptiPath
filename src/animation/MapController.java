@@ -3,14 +3,11 @@ package animation;
 import GA.FitnessEfficiencyCalculator;
 import GA.FitnessTimeCalculator;
 import GA.Interfaces.IFitnessCalculator;
-import javafx.application.Platform;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import map.CityGraphFactory;
 import map.Vertex;
@@ -23,10 +20,11 @@ import map.graph;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class MapController {
-    private MapView mapView;
+    private final MapView mapView;
     private List<Vertex> vertices = new ArrayList<>();
     private List<Edge> edges = new ArrayList<>();
     private Vertex selectedVertex = null;
@@ -54,20 +52,20 @@ public class MapController {
 
 
         DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(getClass().getResource("/animation/museum-dialog.css").toExternalForm());
+        dialogPane.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/animation/museum-dialog.css")).toExternalForm());
         dialogPane.getStyleClass().add("myDialog");
 
 
         alert.getButtonTypes().setAll(buttonTypePreMade, buttonTypeCreateNew);
 
 
-        Image preMadeImage = new Image(getClass().getResourceAsStream("/resources/car.png"));
+        Image preMadeImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/resources/car.png")));
         ImageView preMadeView = new ImageView(preMadeImage);
         preMadeView.setFitWidth(20);
         preMadeView.setFitHeight(20);
         ((Button) dialogPane.lookupButton(buttonTypePreMade)).setGraphic(preMadeView);
 
-        Image createNewImage = new Image(getClass().getResourceAsStream("/resources/car.png"));
+        Image createNewImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/resources/car.png")));
         ImageView createNewView = new ImageView(createNewImage);
         createNewView.setFitWidth(20);
         createNewView.setFitHeight(20);
@@ -87,9 +85,7 @@ public class MapController {
 
 
     private void promptUserForPathType() {
-        mapView.showPathChoiceDialog(isEfficient -> {
-            efficientPath = isEfficient;
-        });
+        mapView.showPathChoiceDialog(isEfficient -> efficientPath = isEfficient);
     }
 
     private void loadPremadeGraph() {
