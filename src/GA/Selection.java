@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class Selection {
 
-// Roulette wheel selection to select parents for crossover
+
     public static List<List<Vertex>> rouletteWheelSelection(List<List<Vertex>> population, Car car, IMap map, int numParents, IFitnessCalculator fitnessCalculator) {
         List<Pair<List<Vertex>, Double>> routeFitnessPairs = population.stream()
                 .map(route -> new Pair<>(route, fitnessCalculator.calculateFitness(car, route, map)))
@@ -40,8 +40,9 @@ public class Selection {
     public static List<List<Vertex>> tournamentSelection(List<List<Vertex>> population, Car car, IMap map,
                                                          int tournamentSize, int numParents, IFitnessCalculator fitnessCalculator) {
         Random random = new Random();
+        int tournamentCount = 0;
         List<List<Vertex>> selectedParents = new ArrayList<>();
-        while (selectedParents.size() < numParents) {
+        while (selectedParents.size() < numParents && tournamentCount < population.size()) {
             List<List<Vertex>> tournamentParticipants = new ArrayList<>();
             for (int i = 0; i < tournamentSize; i++) {
                 int randomIndex = random.nextInt(population.size());
@@ -57,6 +58,7 @@ public class Selection {
                     bestFitness = currentFitness;
                 }
             }
+            tournamentCount++;
             if (!selectedParents.contains(bestPath)) {
                 selectedParents.add(bestPath);
             }

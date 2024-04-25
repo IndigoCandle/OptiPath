@@ -94,13 +94,8 @@ public class MapView {
         ButtonType fastestButtonType = new ButtonType("Fastest");
         dialog.getDialogPane().getButtonTypes().addAll(efficientButtonType, fastestButtonType);
 
-        // Set content with custom graphics or information if needed
-        // e.g., dialog.getDialogPane().setContent(...);
-
-        // Convert the result to a boolean when one of the buttons is clicked
         dialog.setResultConverter(buttonType -> buttonType == efficientButtonType);
 
-        // Show the dialog and wait for the result
         Optional<Boolean> result = dialog.showAndWait();
         result.ifPresent(onChoiceMade);
     }
@@ -178,7 +173,7 @@ public class MapView {
 
     public void clear() {
         this.root.getChildren().clear();
-        setupUIComponents(); // Re-setup the UI after clearing
+        setupUIComponents();
     }
 
 
@@ -188,11 +183,10 @@ public class MapView {
         dialog.setTitle("Edge Details");
         dialog.setHeaderText("Enter the edge details");
 
-        // Set the button types.
+
         ButtonType createButtonType = new ButtonType("Create", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(createButtonType, ButtonType.CANCEL);
 
-        // Create the distance, speedLimit, etc. inputs here.
         GridPane grid = new GridPane();
         TextField distanceField = new TextField();
         TextField speedLimitField = new TextField();
@@ -200,7 +194,7 @@ public class MapView {
         TextField elevationChangeField = new TextField();
         TextField stopsCountField = new TextField();
 
-        // Populate the grid with labels and fields.
+
         grid.add(new Label("Distance:"), 0, 0);
         grid.add(distanceField, 1, 0);
         grid.add(new Label("Speed Limit:"), 0, 1);
@@ -226,7 +220,7 @@ public class MapView {
 
                     return new Edge(from, to, distance, speedLimit, hasTrafficLights, elevationChange, stopsCount);
                 } catch (NumberFormatException e) {
-                    // Handle invalid input here.
+
                     return null;
                 }
             }

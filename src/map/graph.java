@@ -26,7 +26,8 @@ public class graph implements IMap {
 
     @Override
     public void addEdge(Edge edge) {
-
+        edges.add(edge);
+        edge.getSource().addEdge(edge);
     }
 
     @Override

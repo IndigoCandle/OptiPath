@@ -1,0 +1,38 @@
+/* modern-dialog.css */
+.dialog-pane {
+    -fx-background-color: #ffffff;
+    -fx-padding: 20px;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.dialog-pane .content-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #666666;
+}
+
+.button {
+    -fx-background-color: #ffcc00,
+    linear-gradient(#ffcc00 0%, #ffcc00 20%, #ffb347 100%);
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 30px;
+    -fx-padding: 10px 20px;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 3);
+}
+
+.button:hover {
+    -fx-background-color: #ffdd55,
+    linear-gradient(#ffdd55 0%, #ffdd55 20%, #ffc266 100%);
+}
+
+.button:default {
+    -fx-background-color: #e1a900,
+    linear-gradient(#e1a900 0%, #e1a900 20%, #c87f00 100%);
+    -fx-text-fill: #ffffff;
+}

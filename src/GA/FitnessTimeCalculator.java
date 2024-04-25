@@ -1,7 +1,6 @@
 package GA;
 
 import GA.Interfaces.IFitnessCalculator;
-import cars.Calculator;
 import cars.Car;
 import map.Edge;
 import map.Vertex;

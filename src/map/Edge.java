@@ -19,7 +19,7 @@ public class Edge {
         this.hasTrafficLights = hasTrafficLights;
         this.elevationChange = elevationChange;
         this.stopsCount = stopsCount;
-        if(hasTrafficLights)
+        if (hasTrafficLights)
             this.stopsCount += (int) (distance / 300);
     }
 
@@ -55,9 +55,6 @@ public class Edge {
     public void setSpeedLimit(double speedLimit) {
         this.speedLimit = speedLimit;
     }
-
-
-
 
 
     public boolean hasTrafficLights() {

@@ -7,6 +7,8 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -40,25 +42,49 @@ public class MapController {
     }
 
     private void showGraphChoiceDialog() {
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Graph Selection");
         alert.setHeaderText("Choose how to create the graph:");
         alert.setContentText("Would you like to use a pre-made graph or create a new one?");
 
-        ButtonType buttonTypeOne = new ButtonType("Pre-made");
-        ButtonType buttonTypeTwo = new ButtonType("Create New");
 
-        alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+        ButtonType buttonTypePreMade = new ButtonType("Pre-made");
+        ButtonType buttonTypeCreateNew = new ButtonType("Create New");
+
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("/animation/museum-dialog.css").toExternalForm());
+        dialogPane.getStyleClass().add("myDialog");
+
+
+        alert.getButtonTypes().setAll(buttonTypePreMade, buttonTypeCreateNew);
+
+
+        Image preMadeImage = new Image(getClass().getResourceAsStream("/resources/car.png"));
+        ImageView preMadeView = new ImageView(preMadeImage);
+        preMadeView.setFitWidth(20);
+        preMadeView.setFitHeight(20);
+        ((Button) dialogPane.lookupButton(buttonTypePreMade)).setGraphic(preMadeView);
+
+        Image createNewImage = new Image(getClass().getResourceAsStream("/resources/car.png"));
+        ImageView createNewView = new ImageView(createNewImage);
+        createNewView.setFitWidth(20);
+        createNewView.setFitHeight(20);
+        ((Button) dialogPane.lookupButton(buttonTypeCreateNew)).setGraphic(createNewView);
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == buttonTypeOne) {
-            // User chose the pre-made graph
+
+        if (result.isPresent() && result.get() == buttonTypePreMade) {
             loadPremadeGraph();
-        } else {
-            // User will create a new graph
+            attachEventHandlers();
+        } else if (result.isPresent() && result.get() == buttonTypeCreateNew) {
             attachEventHandlers();
         }
     }
+
+
+
 
     private void promptUserForPathType() {
         mapView.showPathChoiceDialog(isEfficient -> {
@@ -68,8 +94,7 @@ public class MapController {
 
     private void loadPremadeGraph() {
         // Get the premade graph
-        CityGraphFactory cityGraphFactory = new CityGraphFactory();
-        graph cityGraph = cityGraphFactory.createSmallCityGraph();
+        graph cityGraph = CityGraphFactory.createSmallCityGraph();
 
         // Save the vertices and edges in the controller
         this.vertices = cityGraph.getVertices();
@@ -84,7 +109,9 @@ public class MapController {
         for (Edge edge : this.edges) {
             mapView.drawEdge(edge);
         }
+
     }
+
 
 
 
@@ -105,6 +132,8 @@ public class MapController {
         // Set the mouse click handler for the mapView
         mapView.getRoot().setOnMouseClicked(this::handleGraphBuilding);
     }
+
+
 
 
 
@@ -167,7 +196,11 @@ public class MapController {
 
     private void runGeneticAlgorithm(){
         if (startVertex == null || endVertex == null) {
-            System.out.println("Select start and end vertices.");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Selection Needed");
+            alert.setHeaderText("Start and End Vertex Selection");
+            alert.setContentText("Please select the start and end vertices before running the algorithm.");
+            alert.showAndWait();
             return;
         }
         promptUserForPathType();
