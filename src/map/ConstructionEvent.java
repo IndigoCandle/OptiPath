@@ -6,8 +6,13 @@ import map.interfaces.IMap;
 import java.util.List;
 
 public class ConstructionEvent implements IEvents {
-    @Override
+
     public List<Edge> GenerateEvent(IMap map) {
+        return null;
+    }
+
+    @Override
+    public List<Edge> GenerateEvent(IMap map, List<List<Vertex>> paths) {
         return null;
     }
 }

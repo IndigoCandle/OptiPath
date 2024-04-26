@@ -9,13 +9,12 @@ public class Edge {
     private double elevationChange;
     private int stopsCount;
 
-    // Constructor
+
     public Edge(Vertex source, Vertex destination, double distance, double speedLimit, boolean hasTrafficLights, double elevationChange, int stopsCount) {
         this.source = source;
         this.destination = destination;
         this.distance = distance;
         this.speedLimit = speedLimit;
-        //this.roadDegree = roadDegree;
         this.hasTrafficLights = hasTrafficLights;
         this.elevationChange = elevationChange;
         this.stopsCount = stopsCount;
