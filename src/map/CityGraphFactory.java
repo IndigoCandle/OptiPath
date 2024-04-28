@@ -34,9 +34,9 @@ public class CityGraphFactory {
         vertices.add(v9);
         vertices.add(v10);
 
-        // Creating edges with elaborate details
 
-        // Existing direct edges
+
+
         edges.add(new Edge(v1, v2, 120, 40, true, 5, 2));
         edges.add(new Edge(v2, v3, 100, 60, true, 10, 4));
         edges.add(new Edge(v3, v4, 150, 50, false, 3, 1));
@@ -48,7 +48,7 @@ public class CityGraphFactory {
         edges.add(new Edge(v9, v10, 100, 45, false, 5, 3));
         edges.add(new Edge(v10, v1, 190, 75, true, 0, 0));
 
-        // Adding cross edges to create multiple paths between various vertices
+
         edges.add(new Edge(v1, v5, 300, 50, false, 5, 1));
         edges.add(new Edge(v2, v6, 350, 60, true, 4, 2));
         edges.add(new Edge(v3, v7, 400, 40, true, 2, 3));

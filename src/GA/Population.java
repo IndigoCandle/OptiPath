@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class Population {
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
     /**
      * Generates a random path from the start vertex to the end vertex using a backtracking algorithm.
