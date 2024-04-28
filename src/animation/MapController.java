@@ -213,7 +213,7 @@ public class MapController {
         IFitnessCalculator fitnessCalculator = efficientPath ?
                 new FitnessEfficiencyCalculator() : new FitnessTimeCalculator();
         graph map = new graph(vertices);
-        Car car = new Car("Car1", 60, 20);
+        Car car = new Car("Car1", 60, 20, 100);
         GeneticAlgorithmPathFinder ga = new GeneticAlgorithmPathFinder(car, fitnessCalculator);
 
         try {

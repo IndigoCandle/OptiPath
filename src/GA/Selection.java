@@ -15,40 +15,7 @@ import java.util.stream.Collectors;
  */
 public class Selection {
 
-    /**
-     * Performs roulette wheel selection to choose parents based on their fitness proportion.
-     *
-     * @param population         The current population of paths.
-     * @param car                The car used for fitness calculations.
-     * @param map                The map over which the paths are defined.
-     * @param numParents         The number of parents to select.
-     * @param fitnessCalculator  The fitness calculator to determine the fitness of each path.
-     * @return A list of selected parent paths for the next generation.
-     */
-    public static List<List<Vertex>> rouletteWheelSelection(List<List<Vertex>> population, Car car, IMap map, int numParents, IFitnessCalculator fitnessCalculator) {
-        List<Pair<List<Vertex>, Double>> routeFitnessPairs = population.stream()
-                .map(route -> new Pair<>(route, fitnessCalculator.calculateFitness(car, route, map)))
-                .collect(Collectors.toList());
 
-        double totalFitness = routeFitnessPairs.stream()
-                .mapToDouble(Pair::getValue)
-                .sum();
-
-        List<List<Vertex>> selectedParents = new ArrayList<>();
-        Random random = new Random();
-        while (selectedParents.size() < numParents) {
-            double randomFitness = random.nextDouble() * totalFitness;
-            double currentSum = 0;
-            for (Pair<List<Vertex>, Double> pair : routeFitnessPairs) {
-                currentSum += pair.getValue();
-                if (currentSum > randomFitness) {
-                    selectedParents.add(pair.getKey());
-                    break;
-                }
-            }
-        }
-        return selectedParents;
-    }
 
     /**
      * Performs tournament selection to choose parents from the population.
@@ -81,6 +48,9 @@ public class Selection {
                     bestFitness = currentFitness;
                 }
             }
+            if(CheckDuplicates(tournamentSize,tournamentParticipants)){
+                selectedParents.add(bestPath);
+            }
             if (!selectedParents.contains(bestPath)) {
                 selectedParents.add(bestPath);
             }
@@ -99,14 +69,39 @@ public class Selection {
      * @return A list of the elite paths.
      */
     public static List<List<Vertex>> elitism(List<List<Vertex>> population, Car car, IMap map, int numberOfElites, IFitnessCalculator fitnessCalculator) {
-        List<Pair<List<Vertex>, Double>> routeFitnessPairs = population.stream()
-                .map(route -> new Pair<>(route, fitnessCalculator.calculateFitness(car, route, map)))
-                .sorted(Comparator.comparing(Pair::getValue))
-                .collect(Collectors.toList());
+        List<Pair<List<Vertex>, Double>> routeFitnessPairs = new ArrayList<>();
 
-        return routeFitnessPairs.stream()
-                .limit(numberOfElites)
-                .map(Pair::getKey)
-                .collect(Collectors.toList());
+        // Manually creating pairs of route and their fitness values
+        for (List<Vertex> route : population) {
+            double fitness = fitnessCalculator.calculateFitness(car, route, map);
+            routeFitnessPairs.add(new Pair<>(route, fitness));
+        }
+
+        // Sorting the list of pairs based on the fitness value
+        routeFitnessPairs.sort(Comparator.comparingDouble(Pair::getValue));
+
+        // Collecting the top 'numberOfElites' routes based on their fitness
+        List<List<Vertex>> elites = new ArrayList<>();
+        for (int i = 0; i < numberOfElites && i < routeFitnessPairs.size(); i++) {
+            elites.add(routeFitnessPairs.get(i).getKey());
+        }
+
+        return elites;
+    }
+
+    private static boolean CheckDuplicates(int tournamentSize, List<List<Vertex>> tournamentParticipants){
+        int length1;
+        int length2;
+        for(int i = 0; i< tournamentSize - 1; i++){
+            length1 = tournamentParticipants.get(i).size();
+            length2 = tournamentParticipants.get(i+1).size();
+            if(length1 != length2)
+                return false;
+            for(int j = 0; j < length1; j++){
+                if(tournamentParticipants.get(i).get(j).getId()!= (tournamentParticipants.get(i+1).get(j).getId()))
+                    return false;
+            }
+        }
+        return true;
     }
 }

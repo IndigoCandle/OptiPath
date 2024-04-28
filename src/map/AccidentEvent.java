@@ -9,6 +9,7 @@ import java.util.Random;
 
 public class AccidentEvent implements IEvents {
     private static final Random random = new Random();
+    private final double ACCIDENT_CHANCE = 0.025;
     public static List<List<Vertex>> newPaths = new ArrayList<>();
 
     /**
@@ -25,7 +26,7 @@ public class AccidentEvent implements IEvents {
     public List<Edge> GenerateEvent(IMap map, List<List<Vertex>> paths) {
         List<Edge> accidentsOccurred = new ArrayList<>();
         for (Edge edge : map.getEdges()) {
-            Edge accident = GenerateAccident(map, edge, 0.05, paths);
+            Edge accident = GenerateAccident(map, edge, paths);
             if(accident != null) {
                 accidentsOccurred.add(accident);
 
@@ -41,45 +42,41 @@ public class AccidentEvent implements IEvents {
      *
      * @param map The map on which the edge exists.
      * @param edge The edge on which to potentially generate an accident.
-     * @param chance The probability of an accident occurring on this edge.
      * @return The edge if an accident occurred on it; null otherwise.
      */
-    private Edge GenerateAccident(IMap map, Edge edge, double chance, List<List<Vertex>> paths) {
-        int counter = 0;
-
-        if(random.nextDouble() < chance) {
+    private Edge GenerateAccident(IMap map, Edge edge, List<List<Vertex>> paths) {
+        if (random.nextDouble() < ACCIDENT_CHANCE) {
             int severity = random.nextInt(3) + 1;
             double speedLimit = edge.getSpeedLimit() - edge.getSpeedLimit() / severity;
             if (speedLimit == 0) {
+                // Remove the edge completely if it becomes impassable
                 edge.getSource().getEdges().remove(edge);
                 map.removeEdge(edge);
                 System.out.println("Accident on edge " + edge.getSource().getId() + " -> " + edge.getDestination().getId() + " has occurred. The road is now closed.");
+
                 Vertex source = edge.getSource();
                 Vertex dest = edge.getDestination();
-                for(List<Vertex> path : paths){
-                    for(Vertex v : path){
-                        if(counter == 0){
-                            if(v == source)
-                                counter++;
-                        } else {
-                            if(v == dest){
-                                counter++;
-                                break;
-                            }
-                            else
-                                counter = 0;
-                        }
 
+                paths.forEach(path -> {
+                    boolean hasAccidentEdge = false;
+                    for (int i = 0; i < path.size() - 1 && !hasAccidentEdge; i++) {
+                        if (path.get(i).equals(source) && path.get(i + 1).equals(dest)) {
+                            hasAccidentEdge = true;
+
+                        }
                     }
-                    if(counter != 2){
-                        newPaths.add(path);
+                    if (!hasAccidentEdge) {
+                        newPaths.add(new ArrayList<>(path));
                     }
-                }
+                });
+
                 return edge;
             } else {
+                System.out.println("Speed limit: "+ edge.getSpeedLimit() + " changed to: " + speedLimit);
                 edge.setSpeedLimit(speedLimit);
             }
         }
         return null;
     }
+
 }

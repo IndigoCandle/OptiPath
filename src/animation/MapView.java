@@ -354,13 +354,21 @@ public class MapView {
                 boolean hasTrafficLights = ((CheckBox) grid.getChildren().get(5)).isSelected();
                 double elevationChange = Double.parseDouble(((TextField) grid.getChildren().get(7)).getText());
                 int stopsCount = Integer.parseInt(((TextField) grid.getChildren().get(9)).getText());
+                if(stopsCount < 0 || speedLimit < 0 || distance <= 0){
+                    ValueAlert();
+                    return null;
+                }
                 return new Edge(from, to, distance, speedLimit, hasTrafficLights, elevationChange, stopsCount);
             } catch (NumberFormatException e) {
-                showAlert("Invalid input", "Please enter valid numbers for distance, speed limit, and other values.");
-                return null; // Return null to indicate that the edge creation was not successful due to invalid input
+                ValueAlert();
+                return null;
             }
         }
         return null;
+    }
+
+    private void ValueAlert(){
+        showAlert("Invalid input", "Please enter valid numbers for distance, speed limit, and other values.");
     }
 
     /**

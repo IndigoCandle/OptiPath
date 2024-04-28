@@ -32,6 +32,7 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
     private List<Edge> accidents;
     private Population population;
     private Vertex end;
+    List<Double> fitnessOverGenerations = new ArrayList<>();
     private Vertex start;
 
     /**
@@ -121,6 +122,14 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
                     children = paths;
                 else
                     throw new NoRoutesFoundException("No routes found between " + start.getId() + " and " + end.getId() + " vertices");
+            }
+
+            if(fitnessCalculator.calculateFitness(car, selectFinalWinner(children, map), map) == Double.MAX_VALUE){
+                List<Vertex> newPath = population.generateRandomPathBacktrack(start,end,map);
+                if(newPath.isEmpty()){
+                    throw new NoRoutesFoundException("No routes found between " + start.getId() + " and " + end.getId() + " vertices");
+                }
+                children.add(newPath);
             }
         }
 
