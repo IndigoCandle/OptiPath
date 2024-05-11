@@ -3,7 +3,7 @@ package GA;
 import GA.Interfaces.IFitnessCalculator;
 import GA.Interfaces.IShortestPathFinder;
 import cars.Car;
-import map.AccidentEvent;
+import map.Events.AccidentEvent;
 import map.Edge;
 import map.interfaces.IEvents;
 import map.interfaces.IMap;

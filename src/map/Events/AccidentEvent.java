@@ -1,5 +1,7 @@
-package map;
+package map.Events;
 
+import map.Edge;
+import map.Vertex;
 import map.interfaces.IEvents;
 import map.interfaces.IMap;
 
@@ -67,7 +69,6 @@ public class AccidentEvent implements IEvents {
                     for (int i = 0; i < path.size() - 1 && !hasAccidentEdge; i++) {
                         if (path.get(i).equals(source) && path.get(i + 1).equals(dest)) {
                             hasAccidentEdge = true;
-
                         }
                     }
                     if (!hasAccidentEdge) {

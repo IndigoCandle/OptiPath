@@ -66,7 +66,7 @@ public class MapController {
         ButtonType buttonTypeCreateNew = new ButtonType("Create New");
 
         DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/animation/museum-dialog.css")).toExternalForm());
+        dialogPane.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/animation/styling/museum-dialog.css")).toExternalForm());
         dialogPane.getStyleClass().add("myDialog");
 
         alert.getButtonTypes().setAll(buttonTypePreMade, buttonTypeCreateNew);

@@ -99,7 +99,7 @@ public class MapView {
      * Loads the CSS stylesheet and applies it to the root pane.
      */
     private void loadStylesheet() {
-        String stylesheet = Objects.requireNonNull(getClass().getResource("/animation/main.css")).toExternalForm();
+        String stylesheet = Objects.requireNonNull(getClass().getResource("/animation/styling/main.css")).toExternalForm();
         root.getStylesheets().add(stylesheet);
     }
     /**
