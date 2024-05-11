@@ -7,7 +7,7 @@ import map.interfaces.IMap;
 import map.Vertex;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 /**
  * This class provides methods to perform selection in a genetic algorithm context.

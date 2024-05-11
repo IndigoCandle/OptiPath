@@ -8,7 +8,7 @@ import java.util.List;
  * and a list of edges which represent connections to other vertices.
  */
 public class Vertex {
-    private int id;
+    private final int id;
     private final double x; // The x-coordinate of the vertex on the screen
     private final double y; // The y-coordinate of the vertex on the screen
     private final List<Edge> edges; // The list of edges connected to this vertex
@@ -36,14 +36,7 @@ public class Vertex {
         return id;
     }
 
-    /**
-     * Sets the identifier of the vertex.
-     *
-     * @param id The new identifier for this vertex.
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
+
 
     /**
      * Returns the x-coordinate of the vertex.

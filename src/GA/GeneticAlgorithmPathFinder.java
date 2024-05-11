@@ -31,7 +31,6 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
     private final Population population;
     private Vertex end;
     public List<Double> recordFuel;
-    private Vertex start;
 
     /**
      * Constructs a pathfinder with a specified car and fitness calculator.
@@ -74,7 +73,6 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
      */
     private void populatePaths(Vertex start, Vertex end, IMap map) throws NoRoutesFoundException {
         this.end = end;
-        this.start = start;
         int populationSize = Math.min(10, (int) Math.ceil((double) map.getEdges().size() / 2));
         for (int i = 0; i < populationSize; i++) {
             List<Vertex> path = population.generateRandomPathBacktrack(start, end, map);

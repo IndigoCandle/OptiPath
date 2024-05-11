@@ -13,10 +13,8 @@ import java.util.Set;
  */
 public class Crossover {
 
-    /**
-     * The rate at which crossovers occur during the genetic algorithm's execution.
-     */
-    final static double CROSSOVER_RATE = 0.7;
+
+
 
     /**
      * Creates two new child paths from the given parent paths. Crossover is

@@ -1,12 +1,12 @@
 package map;
 
 public class Edge {
-    private Vertex source;
-    private Vertex destination;
-    private double distance;
+    private final Vertex source;
+    private final Vertex destination;
+    private final double distance;
     private double speedLimit;
-    private boolean hasTrafficLights;
-    private double elevationChange;
+    private final boolean hasTrafficLights;
+    private final double elevationChange;
     private int stopsCount;
 
 
@@ -27,25 +27,19 @@ public class Edge {
         return source;
     }
 
-    public void setSource(Vertex source) {
-        this.source = source;
-    }
+
 
     public Vertex getDestination() {
         return destination;
     }
 
-    public void setDestination(Vertex destination) {
-        this.destination = destination;
-    }
+
 
     public double getDistance() {
         return distance;
     }
 
-    public void setDistance(double distance) {
-        this.distance = distance;
-    }
+
 
     public double getSpeedLimit() {
         return speedLimit;
@@ -60,23 +54,17 @@ public class Edge {
         return hasTrafficLights;
     }
 
-    public void setHasTrafficLights(boolean hasTrafficLights) {
-        this.hasTrafficLights = hasTrafficLights;
-    }
+
 
     public double getElevationChange() {
         return elevationChange;
     }
 
-    public void setElevationChange(double elevationChange) {
-        this.elevationChange = elevationChange;
-    }
+
 
     public int getStopsCount() {
         return stopsCount;
     }
 
-    public void setStopsCount(int stopsCount) {
-        this.stopsCount = stopsCount;
-    }
+
 }

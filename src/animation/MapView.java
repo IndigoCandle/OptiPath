@@ -32,7 +32,7 @@ public class MapView {
     private Button solveButton;
     private Button resetButton;
     private Button ShowFitnessGraphButton;
-    private ImageView carView;
+
 
     /**
      * Constructor initializes the MapView with a specific root pane.
@@ -83,9 +83,16 @@ public class MapView {
     public Button getSolveButton() {
         return solveButton;
     }
+
+    /**
+     * Returns the ShowFitnessGraph button to attach actions externally.
+     *
+     * @return The ShowFitnessGraph button.
+     */
     public Button getShowFitnessGraphButton() {
         return ShowFitnessGraphButton;
     }
+
     /**
      * Returns the reset button to attach actions externally.
      *
@@ -201,7 +208,7 @@ public class MapView {
         }
 
 
-        ImageView carView = new ImageView(new Image(getClass().getResourceAsStream("/resources/car.png")));
+        ImageView carView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/resources/car.png"))));
         carView.setFitWidth(40);
         carView.setPreserveRatio(true);
 
@@ -282,7 +289,7 @@ public class MapView {
         // Adding fields to grid
         addTextField(grid, "Distance:", 0);
         addTextField(grid, "Speed Limit:", 1);
-        addCheckbox(grid, "Has Traffic Lights:", 2);
+        addCheckbox(grid);
         addTextField(grid, "Elevation Change:", 3);
         addTextField(grid, "Stops Count:", 4);
 
@@ -340,13 +347,11 @@ public class MapView {
      * This method facilitates the input of boolean values such as the presence of traffic lights on an edge.
      *
      * @param grid The grid pane to which the checkbox is added.
-     * @param label The label text for the checkbox.
-     * @param row The row index in the grid pane where the label and checkbox will be placed.
      */
-    private void addCheckbox(GridPane grid, String label, int row) {
+    private void addCheckbox(GridPane grid) {
         CheckBox checkBox = new CheckBox();
-        grid.add(new Label(label), 0, row); // Add label to column 0 of the specified row
-        grid.add(checkBox, 1, row); // Add checkbox to column 1 of the specified row
+        grid.add(new Label("Has Traffic Lights:"), 0, 2);
+        grid.add(checkBox, 1, 2);
     }
 
 

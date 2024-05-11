@@ -8,8 +8,8 @@ import java.util.List;
  * This class implements the IMap interface and represents a graph composed of vertices and edges.
  */
 public class graph implements IMap {
-    private List<Vertex> vertecies;
-    private List<Edge> edges;
+    private final List<Vertex> vertecies;
+    private final List<Edge> edges;
     /**
      * Constructs a graph with the given list of vertices. Initializes the edges based on the vertices' connections.
      *
