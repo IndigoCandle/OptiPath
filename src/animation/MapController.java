@@ -25,13 +25,14 @@ import java.util.Optional;
  */
 public class MapController {
     private final MapView mapView;
-    private List<Vertex> vertices = new ArrayList<>();
-    private List<Edge> edges = new ArrayList<>();
-    private Vertex selectedVertex = null;
-    private Vertex startVertex = null;
-    private Vertex endVertex = null;
+    private List<Vertex> vertices;
+    private List<Edge> edges;
+    private Vertex selectedVertex;
+    private Vertex startVertex;
+    private Vertex endVertex ;
     private final Stage primaryStage;
-    private boolean efficientPath = false;
+    private boolean efficientPath;
+    private List<Double> recordFuel;
 
     /**
      * Constructor initializing the primary stage and map view components.
@@ -42,6 +43,13 @@ public class MapController {
     public MapController(Stage primaryStage, MapView mapView) {
         this.primaryStage = primaryStage;
         this.mapView = mapView;
+        this.vertices = new ArrayList<>();
+        this.edges = new ArrayList<>();
+        this.selectedVertex = null;
+        this.startVertex = null;
+        this.endVertex = null;
+        this.efficientPath = false;
+        recordFuel = new ArrayList<>();
         showGraphChoiceDialog();
     }
 
@@ -122,10 +130,22 @@ public class MapController {
             resetGraph();
             e.consume();
         });
-
+        mapView.getShowFitnessGraphButton().setOnAction(e ->{
+            ShowFitnessGraph();
+            e.consume();
+        });
         mapView.getRoot().setOnMouseClicked(this::handleGraphBuilding);
     }
+    private void ShowFitnessGraph(){
+        if(!recordFuel.isEmpty()){
+            FuelConsumptionGraph graph = new FuelConsumptionGraph(recordFuel);
+            graph.displayGraph();
+        } else{
+            mapView.showAlert("A path must be found first",
+                    "Please run the genetic algorithm first.");
+        }
 
+    }
     /**
      * Handles the building of a graph based on mouse click events.
      *
@@ -222,9 +242,14 @@ public class MapController {
             for (Edge edge : accidents) {
                 mapView.drawCrossOnAccidentEdge(edge);
             }
+            recordFuel = ga.recordFuel;
             mapView.highlightPath(efficientPath, Color.GREEN);
         } catch (NoRoutesFoundException e) {
             System.out.println(e.getMessage());
+            List<Edge> accidents = ga.getAccidents();
+            for (Edge edge : accidents) {
+                mapView.drawCrossOnAccidentEdge(edge);
+            }
         }
     }
 

@@ -5,27 +5,27 @@
 }
 
 .button {
-    -fx-background-color: #4CAF50; /* A fresh, modern green for buttons */
-    -fx-text-fill: #FFFFFF; /* White text for contrast */
-    -fx-font-family: 'Arial', sans-serif; /* Modern, readable font */
-    -fx-font-size: 14px; /* Appropriate font size */
-    -fx-padding: 10px 20px; /* Padding for a larger click area */
-    -fx-border-radius: 5px; /* Rounded corners for a softer look */
-    -fx-background-radius: 5px; /* Align the background radius with border radius */
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
 }
 
 .button:hover {
-    -fx-background-color: #45a049; /* Slightly darker shade on hover */
+    -fx-background-color: #45a049;
 }
 
 .dialog-pane {
-    -fx-background-color: #f2f2f2; /* Light grey background for dialogs */
-    -fx-border-color: #cccccc; /* Slight border for definition */
+    -fx-background-color: #f2f2f2;
+    -fx-border-color: #cccccc;
     -fx-border-width: 1px;
 }
 
 .label {
-    -fx-text-fill: #333333; /* Dark text for readability */
+    -fx-text-fill: #333333;
     -fx-font-family: 'Arial', sans-serif;
 }
 
@@ -34,11 +34,11 @@
 }
 
 .line {
-    -fx-stroke-width: 2px; /* Make lines slightly thicker for visibility */
+    -fx-stroke-width: 2px;
 }
 
 .circle {
-    -fx-fill: #2196F3; /* Blue fill for circles/vertices */
-    -fx-stroke: #1976D2; /* Slightly darker border for definition */
+    -fx-fill: #2196F3;
+    -fx-stroke: #1976D2;
     -fx-stroke-width: 1px;
 }

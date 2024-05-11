@@ -19,6 +19,7 @@ import map.Vertex;
 import map.Edge;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -30,6 +31,7 @@ public class MapView {
     private final Pane root;
     private Button solveButton;
     private Button resetButton;
+    private Button ShowFitnessGraphButton;
     private ImageView carView;
 
     /**
@@ -40,6 +42,7 @@ public class MapView {
     public MapView(Pane root) {
         this.root = root;
         setupUIComponents();
+        loadStylesheet();
     }
 
     /**
@@ -52,10 +55,13 @@ public class MapView {
         solveButton.setLayoutY(550);
 
         resetButton = new Button("Reset");
-        resetButton.setLayoutX(600);
+        resetButton.setLayoutX(622);
         resetButton.setLayoutY(550);
 
-        this.root.getChildren().addAll(solveButton, resetButton);
+        ShowFitnessGraphButton = new Button("Fitness Graph");
+        ShowFitnessGraphButton.setLayoutX(500);
+        ShowFitnessGraphButton.setLayoutY(550);
+        this.root.getChildren().addAll(solveButton, resetButton, ShowFitnessGraphButton);
     }
 
     /**
@@ -77,7 +83,9 @@ public class MapView {
     public Button getSolveButton() {
         return solveButton;
     }
-
+    public Button getShowFitnessGraphButton() {
+        return ShowFitnessGraphButton;
+    }
     /**
      * Returns the reset button to attach actions externally.
      *
@@ -87,6 +95,13 @@ public class MapView {
         return resetButton;
     }
 
+    /**
+     * Loads the CSS stylesheet and applies it to the root pane.
+     */
+    private void loadStylesheet() {
+        String stylesheet = Objects.requireNonNull(getClass().getResource("/animation/main.css")).toExternalForm();
+        root.getStylesheets().add(stylesheet);
+    }
     /**
      * Draws a vertex on the map.
      *

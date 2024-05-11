@@ -10,7 +10,11 @@ import java.util.Random;
 public class AccidentEvent implements IEvents {
     private static final Random random = new Random();
     private final double ACCIDENT_CHANCE = 0.025;
-    public static List<List<Vertex>> newPaths = new ArrayList<>();
+    public static List<List<Vertex>> newPaths;
+
+    public AccidentEvent(){
+        newPaths = new ArrayList<>();
+    }
 
     /**
      * {@inheritDoc}
@@ -46,6 +50,7 @@ public class AccidentEvent implements IEvents {
      */
     private Edge GenerateAccident(IMap map, Edge edge, List<List<Vertex>> paths) {
         if (random.nextDouble() < ACCIDENT_CHANCE) {
+            //שימוש בקבוע
             int severity = random.nextInt(3) + 1;
             double speedLimit = edge.getSpeedLimit() - edge.getSpeedLimit() / severity;
             if (speedLimit == 0) {

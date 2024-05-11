@@ -18,7 +18,6 @@ public class FuelCalculator {
         double elevationChange = edge.getElevationChange();
         int stops = edge.getStopsCount();
 
-        // Simplified example calculation, modify according to actual fuel calculation logic
         double basicFuelConsumption = distance / car.getFuelEfficiency();
         basicFuelConsumption *= speedFactor;
         if (elevationChange > 0) {

@@ -10,29 +10,27 @@ import map.interfaces.IMap;
 import map.Vertex;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 /**
  * This class implements a genetic algorithm to find the shortest path between two vertices in a graph.
  * It is capable of handling dynamic changes such as accidents on the edges of the graph.
  */
 public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
-    private static final int MAX_GENERATIONS = 100;
-    private static final int MAX_ELITE_COUNT = 7;
+    private static final int MAX_GENERATIONS = 200;
+    private static final int MAX_ELITE_COUNT = 20;
     private static final double MUTATION_RATE = 0.1;
     private static final int ACCIDENT_GENERATION_INTERVAL = 10;
 
-    private IEvents accident;
-    private List<List<Vertex>> paths = new ArrayList<>();
-    private List<List<Vertex>> children = new ArrayList<>();
-    private Car car;
-    private IFitnessCalculator fitnessCalculator;
-    private List<Edge> accidents;
-    private Population population;
+    private final IEvents accident;
+    private List<List<Vertex>> paths;
+    private List<List<Vertex>> children;
+    private final Car car;
+    private final IFitnessCalculator fitnessCalculator;
+    private final List<Edge> accidents;
+    private final Population population;
     private Vertex end;
-    List<Double> fitnessOverGenerations = new ArrayList<>();
+    public List<Double> recordFuel;
     private Vertex start;
 
     /**
@@ -47,6 +45,9 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
         accidents = new ArrayList<>();
         accident = new AccidentEvent();
         population = new Population();
+        children = new ArrayList<>();
+        paths = new ArrayList<>();
+        recordFuel = new ArrayList<>();
     }
 
     /**
@@ -106,13 +107,15 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
             int tournamentSize = Math.min(3, children.size());
             int numOfParents = calculateNumOfParents(map);
             if (numOfParents < 2) {
+                recordFuel.add(fitnessCalculator.calculateFitness(car,children.get(0), map));
                 return children.get(0);
             }
 
             List<List<Vertex>> tournamentWinners = Selection.tournamentSelection(children, car, map, tournamentSize, numOfParents, fitnessCalculator);
             List<List<Vertex>> elites = runElitism(children, map, numOfParents);
             eliteCount = updateEliteCount(elites, prevElite, eliteCount);
-
+            recordFuel.add(fitnessCalculator.calculateFitness(car,elites.get(elites.size()-1), map));
+            prevElite = elites.get(0);
             children = performCrossover(tournamentWinners);
             mutateChildren(children, map);
             triggerAccidents(i, map);
@@ -132,7 +135,7 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
                 children.add(newPath);
             }
         }
-
+        recordFuel.add(fitnessCalculator.calculateFitness(car,selectFinalWinner(children,map), map));
         return selectFinalWinner(children, map);
     }
 
@@ -236,12 +239,13 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
      * @return A new path that avoids the affected edges.
      */
     private List<Vertex> findNewPath(List<Vertex> oldPath, IMap map, List<Edge> affectedEdges) {
+        boolean breakFlag = false;
         List<Vertex> newPath = new ArrayList<>();
-        for (int i = 1; i < oldPath.size(); i++) {
+        for (int i = 1; i < oldPath.size() && !breakFlag; i++) {
             if (!affectedEdges.contains(map.getEdgeBetween(oldPath.get(i), oldPath.get(i - 1)))) {
                 newPath.add(oldPath.get(i - 1));
             } else {
-                break;
+                breakFlag = true;
             }
         }
         if (!newPath.isEmpty()) {
