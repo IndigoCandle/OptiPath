@@ -14,6 +14,8 @@ public class AccidentEvent implements IEvents {
     private final double ACCIDENT_CHANCE = 0.025;
     public static List<List<Vertex>> newPaths;
 
+    private List<Edge> MinorAccidentsOccurred;
+
     public AccidentEvent(){
         newPaths = new ArrayList<>();
     }
@@ -31,6 +33,7 @@ public class AccidentEvent implements IEvents {
     @Override
     public List<Edge> GenerateEvent(IMap map, List<List<Vertex>> paths) {
         List<Edge> accidentsOccurred = new ArrayList<>();
+        MinorAccidentsOccurred = new ArrayList<>();
         for (Edge edge : map.getEdges()) {
             Edge accident = GenerateAccident(map, edge, paths);
             if(accident != null) {
@@ -52,7 +55,7 @@ public class AccidentEvent implements IEvents {
      */
     private Edge GenerateAccident(IMap map, Edge edge, List<List<Vertex>> paths) {
         if (random.nextDouble() < ACCIDENT_CHANCE) {
-            //שימוש בקבוע
+
             int severity = random.nextInt(3) + 1;
             double speedLimit = edge.getSpeedLimit() - edge.getSpeedLimit() / severity;
             if (speedLimit == 0) {
@@ -80,9 +83,13 @@ public class AccidentEvent implements IEvents {
             } else {
                 System.out.println("Speed limit: "+ edge.getSpeedLimit() + " changed to: " + speedLimit);
                 edge.setSpeedLimit(speedLimit);
+                MinorAccidentsOccurred.add(edge);
             }
         }
         return null;
     }
 
+    public List<Edge> getMinorAccidentsOccurred() {
+        return MinorAccidentsOccurred;
+    }
 }

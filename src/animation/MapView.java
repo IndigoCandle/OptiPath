@@ -191,6 +191,24 @@ public class MapView {
     }
 
     /**
+     * Draws a simple line on an edge to indicate a minor accident.
+     *
+     * @param edge The edge on which to draw the accident indicator.
+     */
+    void drawLineOnAccidentEdge(Edge edge) {
+        double x1 = (edge.getSource().getX() + edge.getDestination().getX()) / 2 - 5;
+        double y1 = (edge.getSource().getY() + edge.getDestination().getY()) / 2 - 5;
+        double x2 = (edge.getSource().getX() + edge.getDestination().getX()) / 2 + 5;
+        double y2 = (edge.getSource().getY() + edge.getDestination().getY()) / 2 + 5;
+
+        Line line = new Line(x1, y1, x2, y2);
+        line.setStroke(Color.RED);
+        line.setStrokeWidth(2);
+        root.getChildren().add(line);
+    }
+
+
+    /**
      * Animates a car moving along a path defined by a list of vertices.
      *
      * @param path The list of vertices that define the path along which the car moves.

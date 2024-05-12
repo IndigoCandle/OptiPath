@@ -31,6 +31,7 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
     private final Population population;
     private Vertex end;
     public List<Double> recordFuel;
+    private final List<Edge> MinorAccidentsOccurred;
 
     /**
      * Constructs a pathfinder with a specified car and fitness calculator.
@@ -47,6 +48,7 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
         children = new ArrayList<>();
         paths = new ArrayList<>();
         recordFuel = new ArrayList<>();
+        MinorAccidentsOccurred = new ArrayList<>();
     }
 
     /**
@@ -98,7 +100,7 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
         int eliteCount = 0;
         children = paths;
         List<Vertex> prevElite = new ArrayList<>();
-
+        recordFuel.clear();
         for (int i = 0; i < MAX_GENERATIONS && eliteCount < MAX_ELITE_COUNT; i++) {
             validateEdgesOrThrow(start, end, map.getEdges().size());
 
@@ -136,6 +138,7 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
         recordFuel.add(fitnessCalculator.calculateFitness(car,selectFinalWinner(children,map), map));
         return selectFinalWinner(children, map);
     }
+
 
     /**
      * Validates that there are edges in the map. Throws an exception if there are no edges.
@@ -187,8 +190,12 @@ public class GeneticAlgorithmPathFinder implements IShortestPathFinder {
         if (generation % ACCIDENT_GENERATION_INTERVAL == 0) {
             List<Edge> affectedEdges = accident.GenerateEvent(map, paths);
             accidents.addAll(affectedEdges);
+            MinorAccidentsOccurred.addAll(accident.getMinorAccidentsOccurred());
             updatePathsAfterAccidents(affectedEdges, map);
         }
+    }
+    public List<Edge> getMinorAccidentsOccurred() {
+        return MinorAccidentsOccurred;
     }
 
     /**

@@ -238,18 +238,31 @@ public class MapController {
 
         try {
             List<Vertex> efficientPath = ga.findShortestPath(startVertex, endVertex, map);
-            List<Edge> accidents = ga.getAccidents();
-            for (Edge edge : accidents) {
-                mapView.drawCrossOnAccidentEdge(edge);
-            }
+            drawAccidents(ga);
             recordFuel = ga.recordFuel;
             mapView.highlightPath(efficientPath, Color.GREEN);
         } catch (NoRoutesFoundException e) {
             System.out.println(e.getMessage());
-            List<Edge> accidents = ga.getAccidents();
-            for (Edge edge : accidents) {
-                mapView.drawCrossOnAccidentEdge(edge);
-            }
+            drawAccidents(ga);
+        }
+    }
+
+    /**
+     * Draws visual indicators for accidents on the map.
+     * This method distinguishes between major and minor accidents:
+     * - Major accidents are indicated with a red cross.
+     * - Minor accidents are indicated with a red line.
+     *
+     * @param ga The GeneticAlgorithmPathFinder instance containing accident data.
+     */
+    private void drawAccidents(GeneticAlgorithmPathFinder ga) {
+        List<Edge> accidents = ga.getAccidents();
+        List<Edge> MinorAccidents = ga.getMinorAccidentsOccurred();
+        for (Edge edge : accidents) {
+            mapView.drawCrossOnAccidentEdge(edge);
+        }
+        for (Edge edge : MinorAccidents) {
+            mapView.drawLineOnAccidentEdge(edge);
         }
     }
 

@@ -14,4 +14,5 @@ public interface IEvents {
      * @return returns a list of edges after the event had occurred
      */
     public List<Edge> GenerateEvent(IMap map, List<List<Vertex>> paths);
+    public List<Edge> getMinorAccidentsOccurred();
 }
